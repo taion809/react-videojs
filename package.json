@@ -1,6 +1,6 @@
 {
-  "name": "react-videojs",
-  "version": "1.0.0",
+  "name": "@mgeduld/react-videojs",
+  "version": "1.0.1",
   "description": "A react wrapper for the video.js framwork.",
   "main": "dist/bundle.js",
   "scripts": {
@@ -8,12 +8,12 @@
     "watch": "webpack-dev-server --hot --inline",
     "test": "babel-tape-runner 'src/**/*.spec.js'"
   },
-  "author": "",
+  "author": "Marcus Geduld",
   "license": "Apache",
   "dependencies": {
     "babel-runtime": "^5.8.20",
     "lodash": "^3.10.1",
-    "react": "^0.13.3",
+    "react": "^0.14.0",
     "videojs": "^4.12.15"
   },
   "devDependencies": {
