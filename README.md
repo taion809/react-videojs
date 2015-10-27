@@ -6,7 +6,7 @@ A react wrapper for the video-js framework
 
 ## usage example
 
-`
+```
 import VideoJs from 'react-videojs';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -28,4 +28,4 @@ const App = React.createClass({
 });
 
 ReactDOM.render(<App />, document.querySelector('#content'));
-`
+```
