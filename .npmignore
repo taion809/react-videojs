@@ -1,7 +1,2 @@
-/node_modules
-/src
-gulpfile.js
-.gitignore
-.npmignore
-webpack.config.js
-npm-debug.log
+src
+examples

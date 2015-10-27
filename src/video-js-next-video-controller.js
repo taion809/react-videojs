@@ -1,4 +1,5 @@
 const getNextVideoController = () => {
+  //TODO: do we need this module? It's not currently used.
 
   const maybeHandleNextVideo = ({hasEnded, callback}) => {
     if (hasEnded) {
@@ -6,12 +7,16 @@ const getNextVideoController = () => {
     }
   };
 
-  const handleNextVideo = function() {
-    his.props.onNextVideo();
+  const getHandleNextVideoCallback = ({reactElement}) => {
+    return () => {
+      if (reactElement.props.onNextVideo) {
+        reactElement.props.onNextVideo();
+      }
+    };
   };
 
   return {
-    handleNextVideo,
+    getHandleNextVideoCallback,
     maybeHandleNextVideo
   };
 

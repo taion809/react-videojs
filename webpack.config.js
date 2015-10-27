@@ -11,16 +11,25 @@ module.exports = {
   entry: {
     index: path.join(srcPath, 'index.js')
   },
-  resolve: {
-    root: srcPath,
-    extensions: ['', '.js', '.jsx'],
-    modulesDirectories: ['node_modules', 'src']
-  },
-  output: {
+  /*output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
     pathInfo: true
+  },*/
+  output: {
+    library: 'ReactVideoJs',
+    libraryTarget: 'umd'
   },
+  externals: [
+    {
+      react: {
+        root: 'React',
+        commonjs2: 'react',
+        commonjs: 'react',
+        amd: 'react'
+      }
+    }
+  ],
   module: {
     preLoaders: [
         // {
@@ -33,7 +42,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loaders: ['react-hot', 'babel-loader?cacheDirectory&optional[]=runtime']
+        loaders: ['babel-loader?cacheDirectory&optional[]=runtime']
       }
     ]
   },
@@ -41,7 +50,7 @@ module.exports = {
     new webpack.NoErrorsPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-        warnings: true
+        warnings: false
       }
     }),
     new Clean(['dist'])

@@ -1,14 +1,7 @@
-import getEndlessModeController from './video-js-endless-mode-controller';
-import getUtilities from './video-js-controller-utilities';
-import vjs from 'videojs';
-
-const getController = ({React, reportingCallback}) => {
+//TODO: arguments list suggests this module is doing too much
+const getController = ({reportingCallback, document, vjs, utilities, endlessModeController}) => {
 
   const dataReactId = 'dataReactId';
-
-  const endlessModeController = getEndlessModeController({React});
-
-  const utilities = getUtilities({React});
 
   const initializeEventListeners = (eventListeners, player) => {
     Object.keys(eventListeners).forEach(key => {
@@ -23,45 +16,81 @@ const getController = ({React, reportingCallback}) => {
     });
   };
 
-  const handleVideoPlayerReady = function() {
-      utilities.getVideoPlayerEl(this)
-      .parentElement
-      .removeAttribute(dataReactId);
+  const getHandleVideoPlayerReadyCallback = ({reactElement}) => {
+      return () => {
+        utilities.getVideoPlayerEl(reactElement)
+        .parentElement
+        .removeAttribute(dataReactId);
 
-    if (this.props.resize) {
-      const callback = utilities.makeInstanceCallback({context: this,
-        func: handleVideoPlayerResize});
-      const resizeOptionsFromProps = this.props.resizeOptions;
-      addResizeEventListener({callback, resizeOptionsFromProps});
-    }
+      if (reactElement.props.resize) {
+        const callback = utilities.makeInstanceCallback({context: reactElement,
+          func: handleVideoPlayerResize});
+        const resizeOptionsFromProps = reactElement.props.resizeOptions;
+        addResizeEventListener({callback, resizeOptionsFromProps});
+      }
 
-    this.props.onReady();
+      if (reactElement.props.onReady) {
+        reactElement.props.onReady();
+      }
+    };
   };
 
+  //see http://docs.brightcove.com/en/perform/brightcove-player/reference/api/vjs.Player.html#methodsSection
   const listenForPlayerEvents = player => {
+    player.on('firstplay', e => reportingCallback({eventName: 'firstplay',
+      eventData:{currentSrc: player.currentSrc()}}));
+    player.on('play', e => reportingCallback({eventName: 'play',
+      eventData:{currentSrc: player.currentSrc()}}));
+    player.on('pause', e => reportingCallback({eventName: 'pause',
+      eventData:{currentSrc: player.currentSrc()}}));
+    player.on('progress', e => reportingCallback({eventName: 'progress',
+      eventData: {bufferd: player.buffered(),
+                  bufferedPercent: player.bufferedPercent()}}));
+    player.on('resize', e => reportingCallback({eventName: 'resize'}));
+    player.on('seeking', e => reportingCallback({eventName: 'seeking'}));
+    player.on('seeked', e => reportingCallback({eventName: 'seeked'}));
+    player.on('ended', e => reportingCallback({eventName: 'ended'}));
+    player.on('waiting', e => reportingCallback({eventName: 'waiting'}));
+    //get duration
+    player.on('durationchange', e => reportingCallback({eventName: 'durationchange',
+      eventData:{durration: player.duration()}}));
+    player.on('fullscreenchange', e => reportingCallback({eventName: 'fullscreenchange',
+      eventData:{isFullScreen: player.isFullscreen()}}));
+    player.on('mouseout', e => reportingCallback({eventName: 'mouseout'}));
+    player.on('mouseover', e => reportingCallback({eventName: 'mouseover'}));
+    player.on('click', e => reportingCallback({eventName: 'click'}));
     player.on('error', e => reportingCallback({eventName: 'error'}));
+    //get data
+    player.on('loadstart', e => reportingCallback({eventName: 'loadedstart'}));
     player.on('loadeddata', e => reportingCallback({eventName: 'loadeddata'}));
+    player.on('loadedalldata', e => reportingCallback({eventName: 'loadedalldata'}));
     player.on('loadedmetadata', e => reportingCallback({eventName: 'loadedmetadata'}));
     player.on('timeupdate', e => reportingCallback({eventName: 'timeupdate',
-      eventData: {currentTime: player.currentTime()}}));
+      eventData: {currentTime: player.currentTime(),
+                  remainingTime: player.remainingTime()}}));
     player.on('useractive', e => reportingCallback({eventName: 'useractive'}));
     player.on('userinactive', e => reportingCallback({eventName: 'userinactive'}));
     player.on('volumechange', e => reportingCallback({eventName: 'volumechange',
       eventData: {volume: player.volume()}}));
   };
 
-  const mountVideoPlayer = function() {
-    const src = this.props.src;
-    const options = utilities.getVideoPlayerOptions(this.props);
+  const mountVideoPlayer = ({reactElement}) => {
+    const src = reactElement.props.src;
+    const options = utilities.getVideoPlayerOptions(reactElement.props);
 
-    this.player = vjs(utilities.getVideoPlayerEl(this), options);
-    this.player.ready(utilities.makeInstanceCallback({context: this,
-      func: handleVideoPlayerReady}));
-    initializeEventListeners(this.props.eventListeners);
-    initializePlugins(this.props.plugins, this.player);
-    this.player.src(src);
-    endlessModeController.maybeSetEndlessMode({reactElement: this});
-    listenForPlayerEvents(this.player);
+    reactElement.player = vjs(utilities.getVideoPlayerEl(reactElement), options);
+    reactElement.player.ready(utilities.makeInstanceCallback({
+      context: reactElement,
+      func: getHandleVideoPlayerReadyCallback({reactElement})
+    }));
+    initializeEventListeners(reactElement.props.eventListeners);
+    if (reactElement.props.plugins) {
+      initializePlugins(reactElement.props.plugins, reactElement.player)
+    };
+    reactElement.player.src(src);
+    endlessModeController.maybeSetEndlessMode({reactElement,
+      nextVideoCallback: reactElement.props.handleNextVideo});
+    listenForPlayerEvents(reactElement.player);
   };
 
   const unmountVideoPlayer = ({reactElement}) => {

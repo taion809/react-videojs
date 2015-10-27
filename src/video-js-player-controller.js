@@ -1,5 +1,5 @@
 const getController = () => {
-  const doCommand = ({reporter, player, commandFunctionName, commandArgs = []}) => {
+  const doCommand = ({player, commandFunctionName, commandArgs = []}) => {
     try {
       player[commandFunctionName].apply(player, commandArgs);
     } catch(e) {

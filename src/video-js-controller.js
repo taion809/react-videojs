@@ -1,11 +1,6 @@
-import getEndlessModeController from './video-js-endless-mode-controller';
-import getInitializeController from './video-js-initialize-controller';
-import getPlayerController from './video-js-player-controller';
-import getResizingController from './video-js-resizing-controller';
-import getSourceController from './video-js-source-controller';
-import getUtilities from './video-js-controller-utilities';
+const getController = ({React, window, document, vjs, defaultVideoOptions,
+  controllerFactories}) => {
 
-const getController = ({React, window}) => {
   let reportingCallback;
 
   const setReportingCallback = ({callback}) => reportingCallback = callback;
@@ -16,13 +11,24 @@ const getController = ({React, window}) => {
     }
   };
 
-  const endlessModeController = getEndlessModeController({React});
-  const initializeController = getInitializeController({React,
-    reportingCallback:receiveReport});
-  const playerController = getPlayerController();
-  const resizingController = getResizingController({window});
-  const sourceController = getSourceController();
-  const utilities = getUtilities({React});
+  const utilities = controllerFactories.getUtilities({React, document,
+    defaultVideoOptions});
+
+  const endlessModeController = controllerFactories.
+    getEndlessModeController({utilities});
+
+  const initializeController = controllerFactories.getInitializeController({
+    reportingCallback:receiveReport,
+    document,
+    vjs,
+    utilities,
+    endlessModeController});
+
+  const playerController = controllerFactories.getPlayerController();
+
+  const resizingController = controllerFactories.getResizingController({window});
+
+  const sourceController = controllerFactories.getSourceController();
 
   const makeInstanceCallback = utilities.makeInstanceCallback;
 

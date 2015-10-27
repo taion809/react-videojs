@@ -1,10 +1,12 @@
-import defaultVideoOptions from './default-video-options';
+const defaultWidth = 640;
+const defaultHeight = 480;
 
-const getUtilities = ({React}) => {
+const getUtilities = ({React, document, defaultVideoOptions}) => {
+
   const getVideoPlayer = reactElement => reactElement.player;
 
-  const getVideoPlayerEl = reactElement => React.findDOMNode(reactElement.
-    refs[reactElement.ref]);
+  const getVideoPlayerEl = reactElement => document.
+    getElementById(reactElement.idName);
 
   const getVideoPlayerOptions = props => {
     const height = props.resize ? auto : (props.height || defaultHeight);
@@ -12,9 +14,12 @@ const getUtilities = ({React}) => {
     return {...props.options, ...{ width, height }, ...defaultVideoOptions};
   };
 
-  const makeInstanceCallback = ({context, func}) => {
-    return () => {
-      func.call(context);
+  const makeInstanceCallback = (context, func) => {
+    return function() {
+      if (context && func) {
+        return func.call(context);
+      }
+      return () => void 0;
     };
   };
 

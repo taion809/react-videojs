@@ -1,17 +1,16 @@
-import getUtilities from './video-js-controller-utilities';
+const getController = ({utilities}) => {
 
-const getController = ({React}) => {
-  const utilities = getUtilities({React});
-
-  const handleNextVideo = function() {
-      this.props.onNextVideo();
+  const getHandleNextVideoCallback = props => () => {
+      if (props.onNextVideo) {
+        props.onNextVideo()
+      };
   };
 
   const maybeSetEndlessMode = ({reactElement}) => {
     const player = reactElement.player;
     const callback = utilities.makeInstanceCallback({context:
         {props: reactElement.props},
-        func: handleNextVideo});
+        func: getHandleNextVideoCallback(reactElement.props)});
     if (reactElement.props.endlessMode) {
       addEndlessMode({player, callback});
     }

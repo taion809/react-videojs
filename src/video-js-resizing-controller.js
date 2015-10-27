@@ -20,7 +20,7 @@ const getController = ({window}) => {
     }};
   };
 
-  const getResizedVideoPlayerMeasurements = (reactElemment) => {
+  const getResizedVideoPlayerMeasurements = (reactElement) => {
     const resizeOptionsFromProps = reactElement.props.resizeOptions;
     const resizeOptions = getVideoResizeOptions({resizeOptionsFromProps});
     const aspectRatio = resizeOptions.aspectRatio;
@@ -35,14 +35,16 @@ const getController = ({window}) => {
     return {width, height};
   };
 
-  const handleVideoPlayerResize = function() {
+  //TODO: this isn't currently used. Is it necessary?
+
+  /*const handleVideoPlayerResize = function() {
     const videoMeasurements = getResizedVideoPlayerMeasurements(this);
 
     this.player.dimensions(videoMeasurements.width, videoMeasurements.height);
-  };
+  };*/
 
   const addResizeEventListener = ({callback, resizeOptionsFromProps}) => {
-    const debounceTime = getVideoResizeOptions(resizeOptionsFromProps).debounceTime;
+    const debounceTime = getVideoResizeOptions({resizeOptionsFromProps}).debounceTime;
     window.addEventListener(resize, debounce(callback, debounceTime));
   };
 

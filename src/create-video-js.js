@@ -18,7 +18,7 @@ const createVideoJs = ({React, controller, renderUtilities}) => {
 
     componentDidMount() {
        controller.setReportingCallback({callback: this.props.reportingCallback});
-       controller.mountVideoPlayer.call(this);
+       controller.mountVideoPlayer({reactElement:this});
     },
 
     componentWillReceiveProps(nextProps) {
@@ -67,9 +67,10 @@ const createVideoJs = ({React, controller, renderUtilities}) => {
 
     render() {
       const {getCSSClasses, renderDefaultWarning} = renderUtilities;
-      this.ref = getUniqueId(videoPlayerBaseRef);
+      this.idName = getUniqueId(videoPlayerBaseRef);
       return (
-        <video ref={this.ref} className={getCSSClasses(this.props)}>
+        <video id={this.idName}
+               className={getCSSClasses(this.props)}>
           {this.props.children || renderDefaultWarning()}
         </video>
       );
