@@ -13,7 +13,7 @@
     "prepublish": "npm run build"
   },
   "author": "Marcus Geduld",
-  "license": "Apache",
+  "license": "Apache 2",
   "dependencies": {
     "babel-runtime": "^5.8.20",
     "lodash": "^3.10.1",
