@@ -1,6 +1,9 @@
 # react-videojs
 A react wrapper for the video-js framework
 
+## project status
+This is in an early alpha state. Please use at your own risk. 
+
 ## installation
 `npm install react-videojs --save`
 
