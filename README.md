@@ -1,12 +1,15 @@
 # react-videojs
 A react wrapper for the video-js framework
 
+## project status
+This is in an early alpha state. Please use at your own risk. 
+
 ## installation
 `npm install react-videojs --save`
 
 ## usage example
 
-`
+```
 import VideoJs from 'react-videojs';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -28,4 +31,4 @@ const App = React.createClass({
 });
 
 ReactDOM.render(<App />, document.querySelector('#content'));
-`
+```
