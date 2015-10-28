@@ -54,13 +54,28 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	/*
+	Copyright 2015 Grovo Learning, Inc.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+	*/
+
 	'use strict';
 
 	exports.__esModule = true;
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _videojs = __webpack_require__(23);
+	var _videojs = __webpack_require__(25);
 
 	var _videojs2 = _interopRequireDefault(_videojs);
 
@@ -88,19 +103,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _videoJsEndlessModeController2 = _interopRequireDefault(_videoJsEndlessModeController);
 
-	var _videoJsInitializeController = __webpack_require__(11);
+	var _videoJsInitializeController = __webpack_require__(13);
 
 	var _videoJsInitializeController2 = _interopRequireDefault(_videoJsInitializeController);
 
-	var _videoJsPlayerController = __webpack_require__(12);
+	var _videoJsPlayerController = __webpack_require__(14);
 
 	var _videoJsPlayerController2 = _interopRequireDefault(_videoJsPlayerController);
 
-	var _videoJsResizingController = __webpack_require__(13);
+	var _videoJsResizingController = __webpack_require__(15);
 
 	var _videoJsResizingController2 = _interopRequireDefault(_videoJsResizingController);
 
-	var _videoJsSourceController = __webpack_require__(14);
+	var _videoJsSourceController = __webpack_require__(16);
 
 	var _videoJsSourceController2 = _interopRequireDefault(_videoJsSourceController);
 
@@ -108,13 +123,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _videoJsControllerUtilities2 = _interopRequireDefault(_videoJsControllerUtilities);
 
+	var _videoJsEventsController = __webpack_require__(12);
+
+	var _videoJsEventsController2 = _interopRequireDefault(_videoJsEventsController);
+
 	var controllerFactories = {
 	  getEndlessModeController: _videoJsEndlessModeController2['default'],
 	  getInitializeController: _videoJsInitializeController2['default'],
 	  getPlayerController: _videoJsPlayerController2['default'],
 	  getResizingController: _videoJsResizingController2['default'],
 	  getSourceController: _videoJsSourceController2['default'],
-	  getUtilities: _videoJsControllerUtilities2['default']
+	  getUtilities: _videoJsControllerUtilities2['default'],
+	  getEventsController: _videoJsEventsController2['default']
 	};
 
 	var controller = _videoJsController2['default']({ React: _react2['default'], window: window, document: document, vjs: _videojs2['default'],
@@ -136,6 +156,21 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 2 */
 /***/ function(module, exports) {
 
+	/*
+	Copyright 2015 Grovo Learning, Inc.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+	*/
+
 	'use strict';
 
 	exports.__esModule = true;
@@ -151,6 +186,21 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ },
 /* 3 */
 /***/ function(module, exports) {
+
+	/*
+	Copyright 2015 Grovo Learning, Inc.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+	*/
 
 	"use strict";
 
@@ -184,11 +234,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  var endlessModeController = controllerFactories.getEndlessModeController({ utilities: utilities });
 
+	  var eventsController = controllerFactories.getEventsController();
+	  console.log(111, eventsController);
+
 	  var initializeController = controllerFactories.getInitializeController({
 	    reportingCallback: receiveReport,
 	    document: document,
 	    vjs: vjs,
 	    utilities: utilities,
+	    eventsController: eventsController,
 	    endlessModeController: endlessModeController });
 
 	  var playerController = controllerFactories.getPlayerController();
@@ -267,6 +321,21 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
+	/*
+	Copyright 2015 Grovo Learning, Inc.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+	*/
+
 	'use strict';
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -283,7 +352,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _defaultProps2 = _interopRequireDefault(_defaultProps);
 
-	var _lodashUtilityUniqueid = __webpack_require__(22);
+	var _lodashUtilityUniqueid = __webpack_require__(24);
 
 	var _lodashUtilityUniqueid2 = _interopRequireDefault(_lodashUtilityUniqueid);
 
@@ -383,6 +452,21 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 6 */
 /***/ function(module, exports) {
 
+	/*
+	Copyright 2015 Grovo Learning, Inc.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+	*/
+
 	"use strict";
 
 	exports.__esModule = true;
@@ -408,6 +492,21 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ },
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
+
+	/*
+	Copyright 2015 Grovo Learning, Inc.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+	*/
 
 	'use strict';
 
@@ -454,6 +553,21 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 8 */
 /***/ function(module, exports) {
 
+	/*
+	Copyright 2015 Grovo Learning, Inc.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+	*/
+
 	"use strict";
 
 	exports.__esModule = true;
@@ -498,6 +612,21 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ },
 /* 9 */
 /***/ function(module, exports) {
+
+	/*
+	Copyright 2015 Grovo Learning, Inc.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+	*/
 
 	"use strict";
 
@@ -552,6 +681,21 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ },
 /* 10 */
 /***/ function(module, exports) {
+
+	/*
+	Copyright 2015 Grovo Learning, Inc.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+	*/
 
 	'use strict';
 
@@ -639,7 +783,158 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 11 */
 /***/ function(module, exports) {
 
-	//TODO: arguments list suggests this module is doing too much
+	'use strict';
+
+	exports.__esModule = true;
+	var durationchange = 'durationchange';
+	exports.durationchange = durationchange;
+	var click = 'click';
+	exports.click = click;
+	var ended = 'ended';
+	exports.ended = ended;
+	var error = 'error';
+	exports.error = error;
+	var firstplay = 'firstplay';
+	exports.firstplay = firstplay;
+	var fullscreenchange = 'fullscreenchange';
+	exports.fullscreenchange = fullscreenchange;
+	var mouseout = 'mouseout';
+	exports.mouseout = mouseout;
+	var mouseover = 'mouseover';
+	exports.mouseover = mouseover;
+	var pause = 'pause';
+	exports.pause = pause;
+	var play = 'play';
+	exports.play = play;
+	var progress = 'progress';
+	exports.progress = progress;
+	var resize = 'resize';
+	exports.resize = resize;
+	var seeking = 'seeking';
+	exports.seeking = seeking;
+	var seeked = 'seeked';
+	exports.seeked = seeked;
+	var waiting = 'waiting';
+	exports.waiting = waiting;
+	var loadstart = 'loadstart';
+	exports.loadstart = loadstart;
+	var loadeddata = 'loadeddata';
+	exports.loadeddata = loadeddata;
+	var loadedmetadata = 'loadedmetadata';
+	exports.loadedmetadata = loadedmetadata;
+	var timeupdate = 'timeupdate';
+	exports.timeupdate = timeupdate;
+	var useractive = 'useractive';
+	exports.useractive = useractive;
+	var userinactive = 'userinactive';
+	exports.userinactive = userinactive;
+	var volumechange = 'volumechange';
+	exports.volumechange = volumechange;
+	var eventNames = [durationchange, click, ended, error, firstplay, fullscreenchange, mouseout, mouseover, pause, play, progress, resize, seeking, seeked, waiting, loadstart, loadeddata, loadedmetadata, timeupdate, useractive, userinactive, volumechange];
+	exports.eventNames = eventNames;
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+	Copyright 2015 Grovo Learning, Inc.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+	*/
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _videoJsEventNames = __webpack_require__(11);
+
+	var getController = function getController() {
+
+	  var dataMethodNamesLookupTable = {
+	    firstPlay: ['currentSrc'],
+	    play: ['currentSrc'],
+	    pause: ['currentSrc'],
+	    progress: ['buffered', 'bufferedPercent'],
+	    durationchange: ['duration'],
+	    fullscreenchange: ['isFullscreen'],
+	    timeupdate: ['currentTime', 'remainingTime'],
+	    volumechange: ['volume']
+	  };
+
+	  var getEventData = function getEventData(_ref) {
+	    var player = _ref.player;
+	    var dataMethodNames = _ref.dataMethodNames;
+
+	    return dataMethodNames.reduce(function (data, methodName) {
+	      data[methodName] = player[methodName]();
+	      return data;
+	    }, {});
+	  };
+
+	  var getEventDataForEventName = function getEventDataForEventName(_ref2) {
+	    var player = _ref2.player;
+	    var eventName = _ref2.eventName;
+
+	    var dataMethodNames = dataMethodNamesLookupTable[eventName] || [];
+	    return getEventData({ player: player, dataMethodNames: dataMethodNames });
+	  };
+
+	  var makePlayerListenForEvents = function makePlayerListenForEvents(_ref3) {
+	    var player = _ref3.player;
+	    var reportingCallback = _ref3.reportingCallback;
+
+	    _videoJsEventNames.eventNames.forEach(function (eventName) {
+	      return player.on(eventName, function (e) {
+	        var eventData = getEventDataForEventName({ player: player, eventName: eventName });
+	        reportingCallback({ eventName: eventName, eventData: eventData });
+	      });
+	    });
+	  };
+
+	  var listenForPlayerEvents = function listenForPlayerEvents(_ref4) {
+	    var player = _ref4.player;
+	    var reportingCallback = _ref4.reportingCallback;
+
+	    makePlayerListenForEvents({ player: player, reportingCallback: reportingCallback });
+	  };
+
+	  return {
+	    listenForPlayerEvents: listenForPlayerEvents
+	  };
+	};
+
+	exports['default'] = getController;
+	module.exports = exports['default'];
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
+	/*
+	Copyright 2015 Grovo Learning, Inc.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+	*/
+
 	'use strict';
 
 	exports.__esModule = true;
@@ -648,7 +943,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var document = _ref.document;
 	  var vjs = _ref.vjs;
 	  var utilities = _ref.utilities;
+	  var eventsController = _ref.eventsController;
 	  var endlessModeController = _ref.endlessModeController;
+
+	  console.log(222, eventsController);
 
 	  var dataReactId = 'dataReactId';
 
@@ -684,91 +982,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	  };
 
-	  //see http://docs.brightcove.com/en/perform/brightcove-player/reference/api/vjs.Player.html#methodsSection
-	  var listenForPlayerEvents = function listenForPlayerEvents(player) {
-	    player.on('firstplay', function (e) {
-	      return reportingCallback({ eventName: 'firstplay',
-	        eventData: { currentSrc: player.currentSrc() } });
-	    });
-	    player.on('play', function (e) {
-	      return reportingCallback({ eventName: 'play',
-	        eventData: { currentSrc: player.currentSrc() } });
-	    });
-	    player.on('pause', function (e) {
-	      return reportingCallback({ eventName: 'pause',
-	        eventData: { currentSrc: player.currentSrc() } });
-	    });
-	    player.on('progress', function (e) {
-	      return reportingCallback({ eventName: 'progress',
-	        eventData: { bufferd: player.buffered(),
-	          bufferedPercent: player.bufferedPercent() } });
-	    });
-	    player.on('resize', function (e) {
-	      return reportingCallback({ eventName: 'resize' });
-	    });
-	    player.on('seeking', function (e) {
-	      return reportingCallback({ eventName: 'seeking' });
-	    });
-	    player.on('seeked', function (e) {
-	      return reportingCallback({ eventName: 'seeked' });
-	    });
-	    player.on('ended', function (e) {
-	      return reportingCallback({ eventName: 'ended' });
-	    });
-	    player.on('waiting', function (e) {
-	      return reportingCallback({ eventName: 'waiting' });
-	    });
-	    //get duration
-	    player.on('durationchange', function (e) {
-	      return reportingCallback({ eventName: 'durationchange',
-	        eventData: { durration: player.duration() } });
-	    });
-	    player.on('fullscreenchange', function (e) {
-	      return reportingCallback({ eventName: 'fullscreenchange',
-	        eventData: { isFullScreen: player.isFullscreen() } });
-	    });
-	    player.on('mouseout', function (e) {
-	      return reportingCallback({ eventName: 'mouseout' });
-	    });
-	    player.on('mouseover', function (e) {
-	      return reportingCallback({ eventName: 'mouseover' });
-	    });
-	    player.on('click', function (e) {
-	      return reportingCallback({ eventName: 'click' });
-	    });
-	    player.on('error', function (e) {
-	      return reportingCallback({ eventName: 'error' });
-	    });
-	    //get data
-	    player.on('loadstart', function (e) {
-	      return reportingCallback({ eventName: 'loadedstart' });
-	    });
-	    player.on('loadeddata', function (e) {
-	      return reportingCallback({ eventName: 'loadeddata' });
-	    });
-	    player.on('loadedalldata', function (e) {
-	      return reportingCallback({ eventName: 'loadedalldata' });
-	    });
-	    player.on('loadedmetadata', function (e) {
-	      return reportingCallback({ eventName: 'loadedmetadata' });
-	    });
-	    player.on('timeupdate', function (e) {
-	      return reportingCallback({ eventName: 'timeupdate',
-	        eventData: { currentTime: player.currentTime(),
-	          remainingTime: player.remainingTime() } });
-	    });
-	    player.on('useractive', function (e) {
-	      return reportingCallback({ eventName: 'useractive' });
-	    });
-	    player.on('userinactive', function (e) {
-	      return reportingCallback({ eventName: 'userinactive' });
-	    });
-	    player.on('volumechange', function (e) {
-	      return reportingCallback({ eventName: 'volumechange',
-	        eventData: { volume: player.volume() } });
-	    });
-	  };
-
 	  var mountVideoPlayer = function mountVideoPlayer(_ref3) {
 	    var reactElement = _ref3.reactElement;
 
@@ -783,11 +996,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    initializeEventListeners(reactElement.props.eventListeners);
 	    if (reactElement.props.plugins) {
 	      initializePlugins(reactElement.props.plugins, reactElement.player);
-	    };
+	    }
 	    reactElement.player.src(src);
 	    endlessModeController.maybeSetEndlessMode({ reactElement: reactElement,
 	      nextVideoCallback: reactElement.props.handleNextVideo });
-	    listenForPlayerEvents(reactElement.player);
+	    eventsController.listenForPlayerEvents({ player: reactElement.player, reportingCallback: reportingCallback });
 	  };
 
 	  var unmountVideoPlayer = function unmountVideoPlayer(_ref4) {
@@ -806,8 +1019,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports) {
+
+	/*
+	Copyright 2015 Grovo Learning, Inc.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+	*/
 
 	"use strict";
 
@@ -835,8 +1063,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
+
+	/*
+	Copyright 2015 Grovo Learning, Inc.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+	*/
 
 	'use strict';
 
@@ -846,7 +1089,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _lodashFunctionDebounce = __webpack_require__(16);
+	var _lodashFunctionDebounce = __webpack_require__(18);
 
 	var _lodashFunctionDebounce2 = _interopRequireDefault(_lodashFunctionDebounce);
 
@@ -946,8 +1189,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports) {
+
+	/*
+	Copyright 2015 Grovo Learning, Inc.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+	*/
 
 	"use strict";
 
@@ -988,10 +1246,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getNative = __webpack_require__(18);
+	var getNative = __webpack_require__(20);
 
 	/* Native method references for those with the same name as other `lodash` methods. */
 	var nativeNow = getNative(Date, 'now');
@@ -1018,11 +1276,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 16 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var isObject = __webpack_require__(4),
-	    now = __webpack_require__(15);
+	    now = __webpack_require__(17);
 
 	/** Used as the `TypeError` message for "Functions" methods. */
 	var FUNC_ERROR_TEXT = 'Expected a function';
@@ -1205,7 +1463,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 17 */
+/* 19 */
 /***/ function(module, exports) {
 
 	/**
@@ -1224,10 +1482,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 18 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isNative = __webpack_require__(21);
+	var isNative = __webpack_require__(23);
 
 	/**
 	 * Gets the native function at `key` of `object`.
@@ -1246,7 +1504,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 19 */
+/* 21 */
 /***/ function(module, exports) {
 
 	/**
@@ -1264,7 +1522,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 20 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var isObject = __webpack_require__(4);
@@ -1308,11 +1566,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 21 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isFunction = __webpack_require__(20),
-	    isObjectLike = __webpack_require__(19);
+	var isFunction = __webpack_require__(22),
+	    isObjectLike = __webpack_require__(21);
 
 	/** Used to detect host constructors (Safari > 5). */
 	var reIsHostCtor = /^\[object .+?Constructor\]$/;
@@ -1362,10 +1620,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 22 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseToString = __webpack_require__(17);
+	var baseToString = __webpack_require__(19);
 
 	/** Used to generate unique IDs. */
 	var idCounter = 0;
@@ -1395,7 +1653,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 23 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! Video.js v4.12.15 Copyright 2014 Brightcove, Inc. https://github.com/videojs/video.js/blob/master/LICENSE */ 
