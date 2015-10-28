@@ -15,10 +15,14 @@ limitations under the License.
 
 import {PropTypes} from 'react';
 
-const {array, bool, element, func, number, object, shape, string} = PropTypes;
+const {array, arrayOf, bool, element, func, number,
+  object, shape, string} = PropTypes;
 
 const propTypes = {
-  src: array.isRequired,
+  src: arrayOf(shape({
+      type: string.isRequired,
+      src: string.isRequired
+    }).isRequired).isRequired,
   height: number,
   width: number,
   endlessMode: bool,
