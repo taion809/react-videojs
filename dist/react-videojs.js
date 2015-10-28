@@ -235,19 +235,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var endlessModeController = controllerFactories.getEndlessModeController({ utilities: utilities });
 
 	  var eventsController = controllerFactories.getEventsController();
-	  console.log(111, eventsController);
+
+	  var resizingController = controllerFactories.getResizingController({ window: window });
 
 	  var initializeController = controllerFactories.getInitializeController({
 	    reportingCallback: receiveReport,
 	    document: document,
 	    vjs: vjs,
 	    utilities: utilities,
+	    resizingController: resizingController,
 	    eventsController: eventsController,
 	    endlessModeController: endlessModeController });
 
 	  var playerController = controllerFactories.getPlayerController();
-
-	  var resizingController = controllerFactories.getResizingController({ window: window });
 
 	  var sourceController = controllerFactories.getSourceController();
 
@@ -399,18 +399,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	        func: controller.handleNextVideo });
 	      var player = this.player;
 	      var propsResizeOptions = this.props.resizeOptions;
-	      var setResizeEventListenerCallback = controller.makeInstanceCallback({
-	        context: this,
-	        func: controller.handleVideoPlayerResize });
+	      //TODO: implement
+	      /* const setResizeEventListenerCallback = controller.makeInstanceCallback({
+	          context: this,
+	          func: controller.handleVideoPlayerResize});*/
 	      var commandFunctionName = nextProps.command;
 	      var commandArgs = nextProps.commandArgs || [];
 
 	      controller.setReportingCallback({ callback: this.props.reportingCallback });
 	      controller.setEndlessModeListener({ isEndless: isEndless, willBeEndless: willBeEndless, player: player,
 	        setEndlessModeCallback: setEndlessModeCallback });
-	      controller.setResizeEventListener({ isResizable: isResizable, willBeResizeable: willBeResizeable,
-	        propsResizeOptions: propsResizeOptions,
-	        setResizeEventListenerCallback: setResizeEventListenerCallback });
+	      //TODO: implement
+	      /*controller.setResizeEventListener({isResizable, willBeResizeable,
+	        propsResizeOptions,
+	        setResizeEventListenerCallback});*/
 	      /*controller.maybePlayNewSource({player, currentSrc, newSrc, isEndless,
 	        willBeResizeable});*/
 
@@ -943,10 +945,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var document = _ref.document;
 	  var vjs = _ref.vjs;
 	  var utilities = _ref.utilities;
+	  var resizingController = _ref.resizingController;
 	  var eventsController = _ref.eventsController;
 	  var endlessModeController = _ref.endlessModeController;
-
-	  console.log(222, eventsController);
 
 	  var dataReactId = 'dataReactId';
 
@@ -956,25 +957,52 @@ return /******/ (function(modules) { // webpackBootstrap
 	    });
 	  };
 
-	  var initializePlugins = function initializePlugins(plugins, player) {
-	    plugins.forEach(function (plugin) {
-	      vjs.plugin(plugin.name, plugin.func);
-	      player[plugin.name]();
-	    });
+	  var initializePlugins = function initializePlugins(_ref2) {
+	    var plugins = _ref2.plugins;
+	    var player = _ref2.player;
+
+	    if (plugins) {
+	      plugins.forEach(function (plugin) {
+	        vjs.plugin(plugin.name, plugin.func);
+	        player[plugin.name]();
+	      });
+	    }
 	  };
 
-	  var getHandleVideoPlayerReadyCallback = function getHandleVideoPlayerReadyCallback(_ref2) {
-	    var reactElement = _ref2.reactElement;
+	  var removeReactIdFromData = function removeReactIdFromData(_ref3) {
+	    var reactElement = _ref3.reactElement;
+
+	    utilities.getVideoPlayerEl(reactElement).parentElement.removeAttribute(dataReactId);
+	  };
+
+	  //TODO: implement
+	  var handleVideoPlayerResize = function handleVideoPlayerResize() {
+	    return void 0;
+	  };
+
+	  var getResizeCallback = function getResizeCallback(_ref4) {
+	    var reactElement = _ref4.reactElement;
+
+	    return utilities.makeInstanceCallback({ context: reactElement,
+	      func: handleVideoPlayerResize });
+	  };
+
+	  var initPlayerResizeHandlers = function initPlayerResizeHandlers(_ref5) {
+	    var reactElement = _ref5.reactElement;
+
+	    if (reactElement.props.resize && reactElement.props.resizeOptions) {
+	      callback = getResizeCallback({ reactElement: reactElement });
+	      resizingController.addResizeEventListener({ callback: callback,
+	        resizeOptionsFromProps: reactElement.props.resizeOptions });
+	    }
+	  };
+
+	  var getHandleVideoPlayerReadyCallback = function getHandleVideoPlayerReadyCallback(_ref6) {
+	    var reactElement = _ref6.reactElement;
 
 	    return function () {
-	      utilities.getVideoPlayerEl(reactElement).parentElement.removeAttribute(dataReactId);
-
-	      if (reactElement.props.resize) {
-	        var callback = utilities.makeInstanceCallback({ context: reactElement,
-	          func: handleVideoPlayerResize });
-	        var resizeOptionsFromProps = reactElement.props.resizeOptions;
-	        addResizeEventListener({ callback: callback, resizeOptionsFromProps: resizeOptionsFromProps });
-	      }
+	      removeReactIdFromData({ reactElement: reactElement });
+	      initPlayerResizeHandlers({ reactElement: reactElement });
 
 	      if (reactElement.props.onReady) {
 	        reactElement.props.onReady();
@@ -982,29 +1010,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	  };
 
-	  var mountVideoPlayer = function mountVideoPlayer(_ref3) {
-	    var reactElement = _ref3.reactElement;
-
-	    var src = reactElement.props.src;
-	    var options = utilities.getVideoPlayerOptions(reactElement.props);
+	  var initializePlayer = function initializePlayer(_ref7) {
+	    var reactElement = _ref7.reactElement;
+	    var options = _ref7.options;
 
 	    reactElement.player = vjs(utilities.getVideoPlayerEl(reactElement), options);
 	    reactElement.player.ready(utilities.makeInstanceCallback({
 	      context: reactElement,
 	      func: getHandleVideoPlayerReadyCallback({ reactElement: reactElement })
 	    }));
+	  };
+
+	  var mountVideoPlayer = function mountVideoPlayer(_ref8) {
+	    var reactElement = _ref8.reactElement;
+
+	    var src = reactElement.props.src;
+	    var options = utilities.getVideoPlayerOptions(reactElement.props);
+
+	    initializePlayer({ reactElement: reactElement, options: options });
 	    initializeEventListeners(reactElement.props.eventListeners);
-	    if (reactElement.props.plugins) {
-	      initializePlugins(reactElement.props.plugins, reactElement.player);
-	    }
+	    initializePlugins({ plugins: reactElement.props.plugins,
+	      player: reactElement.player });
 	    reactElement.player.src(src);
 	    endlessModeController.maybeSetEndlessMode({ reactElement: reactElement,
 	      nextVideoCallback: reactElement.props.handleNextVideo });
-	    eventsController.listenForPlayerEvents({ player: reactElement.player, reportingCallback: reportingCallback });
+	    eventsController.listenForPlayerEvents({ player: reactElement.player,
+	      reportingCallback: reportingCallback });
 	  };
 
-	  var unmountVideoPlayer = function unmountVideoPlayer(_ref4) {
-	    var reactElement = _ref4.reactElement;
+	  var unmountVideoPlayer = function unmountVideoPlayer(_ref9) {
+	    var reactElement = _ref9.reactElement;
 
 	    reactElement.player.dispose();
 	  };
@@ -1132,13 +1167,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return { width: width, height: height };
 	  };
-
-	  //TODO: this isn't currently used. Is it necessary?
-
-	  /*const handleVideoPlayerResize = function() {
-	    const videoMeasurements = getResizedVideoPlayerMeasurements(this);
-	     this.player.dimensions(videoMeasurements.width, videoMeasurements.height);
-	  };*/
 
 	  var addResizeEventListener = function addResizeEventListener(_ref3) {
 	    var callback = _ref3.callback;

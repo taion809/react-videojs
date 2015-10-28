@@ -33,19 +33,19 @@ const getController = ({React, window, document, vjs, defaultVideoOptions,
     getEndlessModeController({utilities});
 
   const eventsController = controllerFactories.getEventsController();
-  console.log(111, eventsController);
+
+  const resizingController = controllerFactories.getResizingController({window});
 
   const initializeController = controllerFactories.getInitializeController({
     reportingCallback:receiveReport,
     document,
     vjs,
     utilities,
+    resizingController,
     eventsController,
     endlessModeController});
 
   const playerController = controllerFactories.getPlayerController();
-
-  const resizingController = controllerFactories.getResizingController({window});
 
   const sourceController = controllerFactories.getSourceController();
 

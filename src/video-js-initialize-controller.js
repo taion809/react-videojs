@@ -14,8 +14,7 @@ limitations under the License.
 */
 
 const getController = ({reportingCallback, document, vjs, utilities,
-  eventsController, endlessModeController}) => {
-  console.log(222, eventsController);
+  resizingController, eventsController, endlessModeController}) => {
 
   const dataReactId = 'dataReactId';
 
@@ -25,25 +24,41 @@ const getController = ({reportingCallback, document, vjs, utilities,
     });
   };
 
-  const initializePlugins = (plugins, player) => {
-    plugins.forEach((plugin) => {
-      vjs.plugin(plugin.name, plugin.func);
-        player[plugin.name]();
-    });
+  const initializePlugins = ({plugins, player}) => {
+    if (plugins) {
+      plugins.forEach((plugin) => {
+        vjs.plugin(plugin.name, plugin.func);
+          player[plugin.name]();
+      });
+    }
+  };
+
+  const removeReactIdFromData = ({reactElement}) => {
+    utilities.getVideoPlayerEl(reactElement)
+      .parentElement
+      .removeAttribute(dataReactId);
+  };
+
+  //TODO: implement
+  const handleVideoPlayerResize = () => void 0;
+
+  const getResizeCallback = ({reactElement}) => {
+    return utilities.makeInstanceCallback({context: reactElement,
+      func: handleVideoPlayerResize});
+  };
+
+  const initPlayerResizeHandlers = ({reactElement}) => {
+    if (reactElement.props.resize && reactElement.props.resizeOptions) {
+      callback = getResizeCallback({reactElement});
+      resizingController.addResizeEventListener({callback,
+        resizeOptionsFromProps: reactElement.props.resizeOptions});
+    }
   };
 
   const getHandleVideoPlayerReadyCallback = ({reactElement}) => {
-      return () => {
-        utilities.getVideoPlayerEl(reactElement)
-        .parentElement
-        .removeAttribute(dataReactId);
-
-      if (reactElement.props.resize) {
-        const callback = utilities.makeInstanceCallback({context: reactElement,
-          func: handleVideoPlayerResize});
-        const resizeOptionsFromProps = reactElement.props.resizeOptions;
-        addResizeEventListener({callback, resizeOptionsFromProps});
-      }
+    return () => {
+      removeReactIdFromData({reactElement});
+      initPlayerResizeHandlers({reactElement});
 
       if (reactElement.props.onReady) {
         reactElement.props.onReady();
@@ -51,23 +66,27 @@ const getController = ({reportingCallback, document, vjs, utilities,
     };
   };
 
-  const mountVideoPlayer = ({reactElement}) => {
-    const src = reactElement.props.src;
-    const options = utilities.getVideoPlayerOptions(reactElement.props);
-
+  const initializePlayer = ({reactElement, options}) => {
     reactElement.player = vjs(utilities.getVideoPlayerEl(reactElement), options);
     reactElement.player.ready(utilities.makeInstanceCallback({
       context: reactElement,
       func: getHandleVideoPlayerReadyCallback({reactElement})
     }));
+  }
+
+  const mountVideoPlayer = ({reactElement}) => {
+    const src = reactElement.props.src;
+    const options = utilities.getVideoPlayerOptions(reactElement.props);
+
+    initializePlayer({reactElement, options});
     initializeEventListeners(reactElement.props.eventListeners);
-    if (reactElement.props.plugins) {
-      initializePlugins(reactElement.props.plugins, reactElement.player);
-    }
+    initializePlugins({plugins: reactElement.props.plugins,
+      player: reactElement.player});
     reactElement.player.src(src);
     endlessModeController.maybeSetEndlessMode({reactElement,
       nextVideoCallback: reactElement.props.handleNextVideo});
-    eventsController.listenForPlayerEvents({player: reactElement.player, reportingCallback});
+    eventsController.listenForPlayerEvents({player: reactElement.player,
+      reportingCallback});
   };
 
   const unmountVideoPlayer = ({reactElement}) => {

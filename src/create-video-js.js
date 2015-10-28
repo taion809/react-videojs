@@ -49,18 +49,20 @@ const createVideoJs = ({React, controller, renderUtilities}) => {
         func: controller.handleNextVideo});
       const player = this.player;
       const propsResizeOptions = this.props.resizeOptions;
-      const setResizeEventListenerCallback = controller.makeInstanceCallback({
+      //TODO: implement
+      /* const setResizeEventListenerCallback = controller.makeInstanceCallback({
           context: this,
-          func: controller.handleVideoPlayerResize});
+          func: controller.handleVideoPlayerResize});*/
       const commandFunctionName = nextProps.command;
       const commandArgs = nextProps.commandArgs || [];
 
       controller.setReportingCallback({callback: this.props.reportingCallback});
       controller.setEndlessModeListener({isEndless, willBeEndless, player,
         setEndlessModeCallback})
-      controller.setResizeEventListener({isResizable, willBeResizeable,
+      //TODO: implement
+      /*controller.setResizeEventListener({isResizable, willBeResizeable,
         propsResizeOptions,
-        setResizeEventListenerCallback});
+        setResizeEventListenerCallback});*/
       /*controller.maybePlayNewSource({player, currentSrc, newSrc, isEndless,
         willBeResizeable});*/
 
