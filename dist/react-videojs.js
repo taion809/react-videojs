@@ -517,6 +517,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _react = __webpack_require__(1);
 
 	var array = _react.PropTypes.array;
+	var arrayOf = _react.PropTypes.arrayOf;
 	var bool = _react.PropTypes.bool;
 	var element = _react.PropTypes.element;
 	var func = _react.PropTypes.func;
@@ -526,7 +527,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var string = _react.PropTypes.string;
 
 	var propTypes = {
-	  src: array.isRequired,
+	  src: arrayOf(shape({
+	    type: string.isRequired,
+	    src: string.isRequired
+	  }).isRequired).isRequired,
 	  height: number,
 	  width: number,
 	  endlessMode: bool,
