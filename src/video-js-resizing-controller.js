@@ -50,14 +50,6 @@ const getController = ({window}) => {
     return {width, height};
   };
 
-  //TODO: this isn't currently used. Is it necessary?
-
-  /*const handleVideoPlayerResize = function() {
-    const videoMeasurements = getResizedVideoPlayerMeasurements(this);
-
-    this.player.dimensions(videoMeasurements.width, videoMeasurements.height);
-  };*/
-
   const addResizeEventListener = ({callback, resizeOptionsFromProps}) => {
     const debounceTime = getVideoResizeOptions({resizeOptionsFromProps}).debounceTime;
     window.addEventListener(resize, debounce(callback, debounceTime));

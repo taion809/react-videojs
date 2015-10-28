@@ -20,6 +20,11 @@ const getEndlessModeController = () => ({
   maybeSetEndlessMode() {}
 });
 
+const getResizingController = () => ({
+  setResizeEventListener() {},
+  removeResizeEventListener() {}
+});
+
 const getEventsController = () => ({
   listenForPlayerEvents() {}
 });
@@ -53,6 +58,7 @@ const getReactElement = () => ({
 test('mountVideoPlayer()', assert => {
   const eventsController = getEventsController();
   const endlessModeController = getEndlessModeController();
+  const resizingController = getResizingController();
   const vjs = getVjs();
   const utilities = getUtilities();
   const controller = controllerFactory({
@@ -60,6 +66,7 @@ test('mountVideoPlayer()', assert => {
     document: {},
     vjs,
     utilities,
+    resizingController,
     eventsController,
     endlessModeController});
 
@@ -93,6 +100,7 @@ test('mountVideoPlayer()', assert => {
 test('unmountVideoPlayer()', assert => {
   const eventsController = getEventsController();
   const endlessModeController = getEndlessModeController();
+  const resizingController = getResizingController();
   const vjs = getVjs();
   const utilities = getUtilities();
   const controller = controllerFactory({
@@ -100,6 +108,7 @@ test('unmountVideoPlayer()', assert => {
     document: {},
     vjs,
     utilities,
+    resizingController,
     eventsController,
     endlessModeController});
 
