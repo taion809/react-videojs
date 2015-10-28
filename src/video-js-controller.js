@@ -32,11 +32,15 @@ const getController = ({React, window, document, vjs, defaultVideoOptions,
   const endlessModeController = controllerFactories.
     getEndlessModeController({utilities});
 
+  const eventsController = controllerFactories.getEventsController();
+  console.log(111, eventsController);
+
   const initializeController = controllerFactories.getInitializeController({
     reportingCallback:receiveReport,
     document,
     vjs,
     utilities,
+    eventsController,
     endlessModeController});
 
   const playerController = controllerFactories.getPlayerController();

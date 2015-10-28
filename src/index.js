@@ -25,6 +25,7 @@ import getPlayerController from './video-js-player-controller';
 import getResizingController from './video-js-resizing-controller';
 import getSourceController from './video-js-source-controller';
 import getUtilities from './video-js-controller-utilities';
+import getEventsController from './video-js-events-controller';
 
 const controllerFactories = {
   getEndlessModeController,
@@ -32,7 +33,8 @@ const controllerFactories = {
   getPlayerController,
   getResizingController,
   getSourceController,
-  getUtilities
+  getUtilities,
+  getEventsController
 };
 
 const controller = getController({React, window, document, vjs,

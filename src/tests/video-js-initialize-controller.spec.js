@@ -20,6 +20,10 @@ const getEndlessModeController = () => ({
   maybeSetEndlessMode() {}
 });
 
+const getEventsController = () => ({
+  listenForPlayerEvents() {}
+});
+
 const getVjs = () => () => ({
   on() {},
   ready() {},
@@ -47,12 +51,17 @@ const getReactElement = () => ({
 });
 
 test('mountVideoPlayer()', assert => {
+  const eventsController = getEventsController();
+  const endlessModeController = getEndlessModeController();
+  const vjs = getVjs();
+  const utilities = getUtilities();
   const controller = controllerFactory({
     reportingCallback:() => void 0,
     document: {},
-    vjs: getVjs(),
-    utilities: getUtilities(),
-    endlessModeController: getEndlessModeController()});
+    vjs,
+    utilities,
+    eventsController,
+    endlessModeController});
 
   const reactElement = getReactElement();
 
@@ -82,12 +91,17 @@ test('mountVideoPlayer()', assert => {
 });
 
 test('unmountVideoPlayer()', assert => {
+  const eventsController = getEventsController();
+  const endlessModeController = getEndlessModeController();
+  const vjs = getVjs();
+  const utilities = getUtilities();
   const controller = controllerFactory({
     reportingCallback:() => void 0,
     document: {},
-    vjs: getVjs(),
-    utilities: getUtilities(),
-    endlessModeController: getEndlessModeController()});
+    vjs,
+    utilities,
+    eventsController,
+    endlessModeController});
 
   const reactElement = getReactElement();
   let actual;

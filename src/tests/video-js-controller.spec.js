@@ -24,8 +24,9 @@ const controllerFactories = {
   getResizingController: () => ({ setResizeEventListener() {},
     removeResizeEventListener() {} }),
   getSourceController: () => ({ maybePlayNewSource() {} }),
-  getUtilities:() => ({ makeInstanceCallback() {} })
-}
+  getUtilities: () => ({ makeInstanceCallback() {} }),
+  getEventsController: () => ({ listenForPlayerEvents() {} })
+};
 
 test('controller', assert => {
   const controller = controllerFactory({
