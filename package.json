@@ -2,6 +2,7 @@
   "name": "@mgeduld/react-videojs",
   "version": "1.0.11",
   "description": "A react wrapper for the video.js framwork.",
+  "repository": "GrovoLearning/react-videojs",
   "main": "./lib/index.js",
   "scripts": {
     "build:lib": "babel src --out-dir lib",
@@ -13,7 +14,7 @@
     "prepublish": "npm run build"
   },
   "author": "Marcus Geduld",
-  "license": "Apache 2",
+  "license": "Apache-2.0",
   "dependencies": {
     "babel-runtime": "^5.8.20",
     "lodash": "^3.10.1",
